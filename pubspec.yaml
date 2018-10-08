@@ -2,5 +2,6 @@ name: lazy_broadcast
 description: a broadcast streams that pauses its source whenever there's no listeners.
 version: 0.0.1
 author: Remi Rousselet <darky12s@gmail.com>
+homepage: https://github.com/rrousselGit/lazy-broadcast
 environment:
   sdk: ">=2.0.0 <3.0.0"
