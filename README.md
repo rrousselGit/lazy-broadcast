@@ -1,4 +1,4 @@
-# lazy-broadcast-stream
+# lazy-broadcast
 
 ## The problem
 
