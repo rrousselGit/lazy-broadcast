@@ -1,4 +1,4 @@
-# lazy-broadcast-stream
+# lazy-broadcast
 
 ## The problem
 
@@ -64,3 +64,54 @@ This is of course heavily inefficient.
 This library attempts to solve this problem by introducing a lazy broadcast stream.
 
 Its job will be to pause the inner stream whenever the broadcast stream doesn't have subscribers anymore. It will then resume the inner stream as soon as there's a new subscriber.
+
+Which means we can now do the following:
+
+```dart
+Stream broadcast = myStream.transform(LazyBroadcastTransformer());
+```
+
+After modifying our first example, we now have the following:
+
+```dart
+Stream<int> createStream() async* {
+  int i = 0;
+  while (true) {
+    yield i;
+    i++;
+    print('compute');
+    await Future.delayed(const Duration(seconds: 1));
+  }
+}
+
+Future main() async {
+  final foo = createStream().transform(LazyBroadcastTransformer());
+  // foo not running yet
+
+  await for (final val in foo) {
+    if (val > 5) {
+      break;
+    }
+    print(val);
+  }
+  // foo is paused !
+}
+```
+
+which prints:
+
+```
+compute
+0
+compute
+1
+compute
+2
+compute
+3
+compute
+4
+compute
+5
+compute
+```
